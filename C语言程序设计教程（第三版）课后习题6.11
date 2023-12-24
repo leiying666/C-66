@@ -1,0 +1,17 @@
+#include<math.h>
+#include<stdio.h>
+
+int main()
+{
+	double x;
+	scanf("%lf",&x);
+	double a=x/2,b=0;
+	b = (a + x / a) / 2;
+	while (fabs(a - b) >= 0.00001)
+	{
+		a = b;
+		b = (a + x / a) / 2;
+	}
+	printf("%.3lf", b);
+	return 0;
+}
