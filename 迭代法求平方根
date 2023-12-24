@@ -1,0 +1,68 @@
+牛顿迭代法的C语言实现
+牛顿迭代法是求方程根的一种解法。
+
+一、求一个数a的平方根，可以用迭代法无限逼近。
+迭代法公式如下
+
+X2 = (x1+a/x1)/2
+
+S1，要先预估一个值x1，通常取x1=a/2;
+S2，带入迭代公式，得到x2；
+S3，计算x1 和 x2 的差的绝对值是否符合精确度；若符合则x2便是结果，若不符合进入S4；
+S4，x1 = x2，然后重复S2、S3，直到符合精确度。
+
+#include <stdio.h>
+#include <math.h>
+int main() {
+    float a;
+    float x1, x2;
+
+    printf("请输入待求平方根的数：");
+    scanf("%f",&a);
+    x1 = a / 2;
+    x2 = (x1 + a / x1) / 2;
+    while (fabs(x1 - x2) >= 1e-5) {
+        x1 = x2;
+        x2 = (x1 + a / x1) / 2;
+    }   
+    printf("%f",x2);
+}
+
+二、求一元多次方程的根
+迭代公式：
+
+x2 = x1 - f(x1)/df(x1);
+算法的基本设计思想与求平方根相同。不再赘述
+
+//————————————————————
+//牛顿迭代法求方程的根
+#include <stdio.h>
+#include <math.h>
+
+double funY(double x);
+double funY1(double x);
+
+int main() {
+    double x, x1, x2;
+
+    x1 = 1.5;//求1.5附近的根
+    x2 = x1 - funY(x1) / funY1(x1);
+    while (fabs(x2 - x1) > 1e-6) {
+        x1 = x2;
+        x2 = x2 = x1 - funY(x1) / funY1(x1);
+    }
+    printf("%lf",x2);
+}
+//————————————————————
+//  y的函数
+double funY(double x) {
+    double y;
+    y = 2 * x*x*x - 4 * x*x + 3 * x - 6;
+    return y;
+}
+//y的一阶导数
+double funY1(double x) {
+    double y1;
+    y1 = 6 * x*x - 8 * x + 3;
+    return y1;
+}
